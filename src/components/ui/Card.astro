@@ -1,0 +1,27 @@
+---
+type Color = "red" | "green" | "yellow";
+type Props = {
+  className?: string | null;
+  color?: Color;
+  showStatus?: boolean;
+};
+const { className, color, showStatus } = Astro.props as Props;
+
+const colorClass = {
+  red: "before:bg-red-500",
+  green: "before:bg-green-600",
+  yellow: "before:bg-yellow-600",
+};
+---
+
+<div
+  class:list={[
+    "bg-gray-800 shadow-lg p-6 relative",
+    color &&
+      showStatus &&
+      `before:absolute before:left-0 before:top-0 before:bottom-0 before:content-[''] before:w-1 ${colorClass[color]}`,
+    className,
+  ]}
+>
+  <slot />
+</div>

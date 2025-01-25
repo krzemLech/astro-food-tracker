@@ -1,0 +1,41 @@
+---
+import { parseDateParts } from "@/lib/dates";
+import Card from "@/components/ui/Card.astro";
+import ActionBtns from "./ActionBtns.astro";
+
+interface Props {
+  id: number;
+  date: string;
+  weight: number;
+}
+
+const { id, date, weight } = Astro.props;
+const { weekday, monthday, year } = parseDateParts(date);
+
+// Color logic based on weight trends could be added here
+const color = "green";
+---
+
+<Card
+  {color}
+  className="relative min-h-20 hover:scale-105 transition-all bg-green-900/20"
+>
+  <div class="flex justify-between items-center text-green-50">
+    <div class="flex-1">
+      <h3 class="text-lg font-semibold">
+        {weekday}
+        <span class="text-gray-400 pl-2 italic">{monthday}, {year}</span>
+      </h3>
+    </div>
+
+    <div class="pr-24">
+      <span class="text-2xl font-bold text-green-400">{weight} kg</span>
+    </div>
+
+    <ActionBtns
+      {id}
+      resource="weight"
+      className="absolute top-1/2 -translate-y-1/2 right-6"
+    />
+  </div>
+</Card>

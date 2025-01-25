@@ -1,16 +1,38 @@
 ---
+import MainLayout from "@/layouts/MainLayout.astro";
+import TrackingFormWraper from "@/components/form/TrackingFormWraper.astro";
+import WeigthFormWrapper from "@/components/form/WeigthFormWrapper.astro";
+import Card from "@/components/ui/Card.astro";
+import DayList from "@/components/list/DayList.astro";
+import DeleteModal from "@/components/modal/DeleteModal.svelte";
 
+const url = Astro.url;
+const show = {
+  weight: url.searchParams.get("weight"),
+  delete: url.searchParams.get("delete"), // ?delete=workout,1
+};
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<MainLayout title="Food & Weight Tracker">
+  <!-- Tracking Form -->
+  <Card>
+    <TrackingFormWraper />
+  </Card>
+
+  <!-- Weight Form -->
+  <WeigthFormWrapper />
+
+  <hr class="border-gray-800 mb-4 mt-6" />
+
+  <!-- Records List -->
+  <h2 class="text-xl font-semibold mb-4">History</h2>
+  <DayList />
+  <DeleteModal client:load />
+</MainLayout>
+
+<script>
+  // Refresh page when a new workout is saved
+  window.addEventListener("workoutSaved", () => {
+    window.location.reload();
+  });
+</script>

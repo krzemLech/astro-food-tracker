@@ -1,0 +1,14 @@
+---
+type Props = {
+  time: number;
+  className?: string;
+};
+
+const { time, className } = Astro.props;
+
+const displayTime = time.toString().padStart(4, "0");
+const hours = displayTime.slice(0, 2);
+const minutes = displayTime.slice(2, 4);
+---
+
+<span class={className}>{hours}:{minutes}</span>

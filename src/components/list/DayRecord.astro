@@ -1,0 +1,81 @@
+---
+import { parseDateParts } from "@/lib/dates";
+import Card from "@/components/ui/Card.astro";
+
+import TimeDisplay from "../ui/TimeDisplay.astro";
+import ActionBtns from "./ActionBtns.astro";
+
+interface Props {
+  id: number;
+  date: Date;
+  calories: number;
+  training: string;
+  fastingTime: number;
+  coldShower: boolean;
+  walk: boolean;
+  wakeup: number;
+  ketoDiet: boolean;
+  alcohol: boolean;
+}
+
+const {
+  id,
+  date,
+  calories,
+  training,
+  fastingTime,
+  coldShower,
+  walk,
+  wakeup,
+  ketoDiet,
+  alcohol,
+} = Astro.props;
+
+const { weekday, monthday, year } = parseDateParts(date);
+
+let color: any = undefined;
+if (calories > 2500 || alcohol) color = "red";
+else if (calories > 2000) color = "yellow";
+else if (calories <= 2000) color = "green";
+---
+
+<Card
+  {color}
+  showStatus
+  className="itemm relative min-h-24 hover:scale-105 transition-all"
+>
+  <div class="flex justify-start items-start flex-col md:flex-row md:flex-wrap">
+    <h3 class="text-lg font-semibold w-72">
+      {weekday}
+      <span class="text-gray-400 pl-2 italic">{monthday}, {year}</span>
+    </h3>
+    <div class="flex items-center space-x-2 w-24">
+      {coldShower && <span class="text-green-300"> C </span>}
+      {walk && <span class="text-green-300"> W </span>}
+      {ketoDiet && <span class="text-green-300"> K </span>}
+      {alcohol && <span class="text-red-500 font-semibold">A</span>}
+    </div>
+    <div
+      class="flex items-center space-x-2 flex-1 md:max-lg:order-last md:max-lg:basis-full md:max-lg:pt-6"
+    >
+      <span class="text-gray-400">Training:</span>
+      <span class={training ? "text-grey-100" : "text-indigo-500"}>
+        {training || "✗"}
+      </span>
+    </div>
+    <div class="flex items-center space-x-2 w-36">
+      <span class="text-gray-400">Wake Up:</span>
+      <TimeDisplay time={wakeup} className="text-gray-100 pr-4" />
+    </div>
+    <div class="flex items-center space-x-2 w-28">
+      <span class="text-gray-400">Fasting:</span>
+      <span class="text-gray-100">{fastingTime}h</span>
+    </div>
+    <span class="text-indigo-500 font-semibold">{calories} kcal</span>
+  </div>
+  <ActionBtns
+    id={id}
+    resource="workout"
+    className="absolute max-md:top-6 max-md:right-6 md:bottom-3 md:right-6"
+  />
+</Card>

@@ -1,0 +1,45 @@
+---
+import { Icon } from "astro-icon/components";
+type Props = {
+  title: string;
+};
+
+const { title } = Astro.props as Props;
+
+const url = Astro.url;
+const weight = url.searchParams.get("weight");
+---
+
+<nav class="py-4 border-b border-gray-800">
+  <div class="flex items-center gap-4 text-indigo-500 max-md:justify-center">
+    <Icon name="dumbell-favicon" class="size-6" />
+    <a href="/" class="text-2xl font-bold gradient-text">{title}</a>
+    <a
+      href={weight ? "/" : "/?weight=null"}
+      class="text-sm font-extralight ml-auto"
+    >
+      {
+        weight ? (
+          <Icon
+            name="material-symbols-light:monitor-weight-loss-outline-sharp"
+            class="size-9"
+          />
+        ) : (
+          <Icon
+            name="material-symbols-light:monitor-weight-gain-outline-sharp"
+            class="size-9"
+          />
+        )
+      }
+    </a>
+  </div>
+</nav>
+
+<style>
+  .gradient-text {
+    background: linear-gradient(135deg, #c5cae9, #818cf8 60%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+</style>

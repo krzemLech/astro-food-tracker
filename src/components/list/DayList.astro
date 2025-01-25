@@ -1,0 +1,52 @@
+---
+import { db, Workouts, Weights } from "astro:db";
+import { desc } from "astro:db";
+import DayRecord from "./DayRecord.astro";
+import WeightRecord from "./WeightRecord.astro";
+
+const workouts = await db.select().from(Workouts).orderBy(desc(Workouts.date));
+const weights = await db.select().from(Weights).orderBy(desc(Weights.date));
+
+// Combine and sort records by date
+const records = [
+  ...workouts.map((w) => ({ type: "workout" as const, data: w, date: w.date })),
+  ...weights.map((w) => ({ type: "weight" as const, data: w, date: w.date })),
+].sort((a, b) => {
+  // If dates are equal, show weight first
+  if (a.date.getTime() === b.date.getTime()) {
+    return a.type === "workout" ? -1 : 1;
+  }
+  // Otherwise sort by date descending
+  return b.date.getTime() - a.date.getTime();
+});
+---
+
+<div class="space-y-4">
+  {
+    records.map((record) => {
+      if (record.type === "weight") {
+        return (
+          <WeightRecord
+            id={record.data.id}
+            date={record.data.date.toISOString()}
+            weight={record.data.weight}
+          />
+        );
+      }
+      return (
+        <DayRecord
+          id={record.data.id}
+          date={record.data.date}
+          calories={record.data.calories}
+          training={record.data.training}
+          fastingTime={record.data.fastingTime}
+          wakeup={record.data.wakeup}
+          coldShower={record.data.coldShower}
+          walk={record.data.walk}
+          ketoDiet={record.data.ketoDiet}
+          alcohol={record.data.alcohol}
+        />
+      );
+    })
+  }
+</div>

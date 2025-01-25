@@ -1,0 +1,22 @@
+---
+import Card from "@/components/ui/Card.astro";
+import { Icon } from "astro-icon/components";
+import ActionBtns from "./ActionBtns.astro";
+type BlamageProps = {
+  id: string;
+};
+const { id } = Astro.props as BlamageProps;
+---
+
+<Card
+  className="bg-red-950/40 flex justify-center items-center h-24 hover:scale-105 transition-all"
+>
+  <ActionBtns id={id} className="absolute top-3 right-6" red />
+  <div class="flex text-red-600 gap-2">
+    <Icon
+      name="material-symbols-light:account-circle-off-outline-rounded"
+      size="24"
+    />
+    BLAMAGE
+  </div>
+</Card>
