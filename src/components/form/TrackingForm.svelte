@@ -56,9 +56,11 @@
 </script>
 
 <form onsubmit={handleSubmit}>
-  <section class="flex max-sm:flex-col justify-between items-center mb-6">
+  <section
+    class="flex max-sm:flex-col text-center md:text-left md:justify-between items-center mb-6"
+  >
     <h2 class="text-xl font-semibold mb-1">Add Today's Progress</h2>
-    <DateDisplay bind:date={formData.date} />
+    <DateDisplay bind:date={formData.date} {isEditing} />
   </section>
   <section class="flex max-md:flex-col">
     <div class="flex-1 space-y-5">
@@ -72,7 +74,7 @@
       />
       <div class="flex gap-6 justify-between">
         <BaseInput
-          label="Fasting Time (hours)"
+          label="Fasting Time (h)"
           name="fastingTime"
           bind:value={formData.fastingTime}
           required
@@ -98,7 +100,7 @@
     </div>
 
     <div
-      class="gap-6 flex md:flex-col min-w-72 px-4 pt-6 md:pl-14 sm:justify-between max-md:flex-wrap"
+      class="gap-6 flex md:flex-col min-w-72 md:px-4 pt-6 md:pl-14 sm:justify-between max-md:flex-wrap"
     >
       <CheckBox
         label="Cold Shower"
@@ -108,11 +110,7 @@
 
       <CheckBox label="Walk" name="walk" bind:checked={formData.walk} />
 
-      <CheckBox
-        label="Keto Diet"
-        name="ketoDiet"
-        bind:checked={formData.ketoDiet}
-      />
+      <CheckBox label="Keto" name="ketoDiet" bind:checked={formData.ketoDiet} />
 
       <CheckBox
         label="Alcohol"
@@ -130,23 +128,21 @@
     </div>
   </section>
 
-  <div class="text-red-500 text-xs min-h-2">
+  <div class="text-red-500 text-xs min-h-2 mt-4">
     {#each Object.entries(errors) as [errKey, errMsg]}
       <p class="block">{errMsg}</p>
     {/each}
   </div>
 
-  <div class="flex justify-between space-x-4 mt-6">
-    <div class="flex gap-4">
-      <BaseButton
-        type="submit"
-        variant="primary"
-        disabled={isSubmitting}
-        className="min-w-64"
-      >
-        {isSubmitting ? "Saving..." : "Save Progress"}
-      </BaseButton>
-      <Link href="/" variant="ghost">Reset</Link>
-    </div>
+  <div class="flex max-md:justify-between space-x-4 mt-4 md:mt-6">
+    <BaseButton
+      type="submit"
+      variant="primary"
+      disabled={isSubmitting}
+      className="md:min-w-64"
+    >
+      {isSubmitting ? "Saving..." : "Save Progress"}
+    </BaseButton>
+    <Link href="/" variant="ghost">Reset</Link>
   </div>
 </form>

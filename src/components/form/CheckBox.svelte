@@ -23,7 +23,6 @@
           ? "border-red-800 checked:bg-red-500 checked:border-red-500"
           : "border-slate-600 checked:bg-indigo-600 checked:border-indigo-600",
       ]}
-      id="check7"
     />
     <span
       class={[

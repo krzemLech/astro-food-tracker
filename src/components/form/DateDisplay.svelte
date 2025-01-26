@@ -16,14 +16,14 @@
   }
 </script>
 
-<div class="flex items-center gap-2 min-w-[300px]">
+<div class="flex items-center gap-2 max-md:gap-1 max-md:mt-1">
   {#if !isEditing}
-    <div class="switch-container flex md:flex-col mr-2">
+    <div class="switch-container flex md:flex-col mr-1 md:mr-2">
       <button on:click={handleUp}>
-        <Chevron className="size-3" />
+        <Chevron className="size-5 md:size-3" />
       </button>
       <button on:click={handleDown}>
-        <Chevron className="size-3" reversed />
+        <Chevron className="md:size-3" reversed />
       </button>
     </div>
   {/if}
@@ -47,4 +47,9 @@
   <span class="font-extralight text-gray-400"
     >{formattedDate.monthday}, {formattedDate.year}</span
   >
+  {#if !isEditing}
+    <button on:click={handleDown} class="md:hidden ml-1">
+      <Chevron className="size-5" reversed />
+    </button>
+  {/if}
 </div>

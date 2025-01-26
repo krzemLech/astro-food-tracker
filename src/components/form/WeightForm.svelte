@@ -5,12 +5,17 @@
   import DateDisplay from "./DateDisplay.svelte";
   import { defaultWeight } from "@/data/defaults";
   import type { Weight } from "@/types/weight";
+  import { routes } from "@/config";
   export let weight: Weight | null = null;
+
+  const cancelRoute = routes.getRoute("weight");
 
   let formData = weight || defaultWeight;
 
   let isSubmitting = false;
   let errors: Record<string, string> = {};
+
+  $: isEditing = !!weight;
 
   async function handleSubmit(event: Event) {
     event.preventDefault();
@@ -43,7 +48,7 @@
       formData = defaultWeight;
 
       // Redirect to main page
-      window.location.href = "/";
+      window.location.href = cancelRoute;
     } catch (e) {
       errors.message = e instanceof Error ? e.message : "Failed to save weight";
     } finally {
@@ -55,7 +60,7 @@
 <form on:submit={handleSubmit} class="mt-1 text-green-50">
   <section class="flex max-sm:flex-col justify-between items-center mb-6">
     <h2 class="text-xl font-semibold mb-1">Add Weight Measurement</h2>
-    <DateDisplay bind:date={formData.date} />
+    <DateDisplay bind:date={formData.date} {isEditing} />
   </section>
 
   <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -75,15 +80,15 @@
     {/each}
   </div>
 
-  <div class="flex justify-start space-x-4 mt-6">
+  <div class="flex max-md:justify-between space-x-4 mt-4 md:mt-6">
     <BaseButton
       type="submit"
       variant="green"
       disabled={isSubmitting}
-      className="min-w-64"
+      className="md:min-w-64"
     >
       {isSubmitting ? "Saving..." : "Save Weight"}
     </BaseButton>
-    <Link href="/" variant="green">Cancel</Link>
+    <Link href={cancelRoute} variant="green">Cancel</Link>
   </div>
 </form>

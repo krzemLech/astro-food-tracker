@@ -20,8 +20,8 @@ const color = "green";
   {color}
   className="relative min-h-20 hover:scale-105 transition-all bg-green-900/20"
 >
-  <div class="flex justify-between items-center text-green-50">
-    <div class="flex-1">
+  <div class="flex justify-between items-center text-green-50 flex-wrap">
+    <div class="flex-1 max-md:min-w-[250px]">
       <h3 class="text-lg font-semibold">
         {weekday}
         <span class="text-gray-400 pl-2 italic">{monthday}, {year}</span>
@@ -32,10 +32,6 @@ const color = "green";
       <span class="text-2xl font-bold text-green-400">{weight} kg</span>
     </div>
 
-    <ActionBtns
-      {id}
-      resource="weight"
-      className="absolute top-1/2 -translate-y-1/2 right-6"
-    />
+    <ActionBtns {id} resource="weight" className="absolute top-6 right-6" />
   </div>
 </Card>

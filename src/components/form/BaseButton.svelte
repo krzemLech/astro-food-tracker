@@ -22,7 +22,7 @@
 
 <button
   {type}
-  class="px-4 py-2 font-medium transition-colors duration-200 {variantClasses[
+  class="px-4 p-2 font-medium transition-colors duration-200 {variantClasses[
     variant
   ]} {className} {disabled ? 'opacity-50 cursor-not-allowed' : ''}"
   on:click={handleClick}
