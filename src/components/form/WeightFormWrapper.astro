@@ -1,0 +1,32 @@
+---
+import type { Weight } from "@/types/weight";
+import WeightForm from "./WeightForm.svelte";
+import { db, Weights, eq } from "astro:db";
+
+// controls data
+
+type WeightProps = {
+  id?: string | null;
+};
+
+const { id } = Astro.props as WeightProps;
+
+// vars
+let weight = null;
+let weights: Weight[] = [];
+
+// logic
+if (id) {
+  weights = await db
+    .select()
+    .from(Weights)
+    .where(eq(Weights.id, parseInt(id)));
+}
+if (weights.length > 0) {
+  weight = weights[0];
+  // @ts-ignore
+  if (weight.createdAt) delete weight.createdAt;
+}
+---
+
+<WeightForm client:load weight={weight} />

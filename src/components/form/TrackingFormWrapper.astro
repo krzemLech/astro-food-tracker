@@ -2,16 +2,25 @@
 import type { WorkoutInput } from "@/types/workout";
 import TrackingForm from "./TrackingForm.svelte";
 import { db, Workouts, eq } from "astro:db";
+
+// controls data
+
+type TrackingProps = {
+  id?: string | null;
+};
+
+const { id } = Astro.props as TrackingProps;
+
 let workout = null;
 let workouts: WorkoutInput[] = [];
-const editing = Astro.url.searchParams.get("edit");
-const [resource, id] = editing?.split(",") || [];
-if (resource === "workout" && id) {
+
+if (id) {
   workouts = await db
     .select()
     .from(Workouts)
     .where(eq(Workouts.id, parseInt(id)));
 }
+
 if (workouts.length > 0) {
   workout = workouts[0];
   // @ts-ignore

@@ -1,0 +1,20 @@
+---
+import WeightFormWrapper from "./form/WeightFormWrapper.astro";
+import TrackingFormWrapper from "./form/TrackingFormWrapper.astro";
+import Card from "./ui/Card.astro";
+import { routes } from "@/config";
+
+// Controls visuals
+
+const show = Astro.url.searchParams.get("show");
+const { resource, id } = routes.getResourceAndId(show);
+---
+
+<Card className={resource === "workout" ? "block" : "hidden"}>
+  <TrackingFormWrapper {id} />
+</Card>
+<Card
+  className={`mt-4 bg-green-900/20 ${resource === "weight" ? "block" : "hidden"}`}
+>
+  <WeightFormWrapper {id} />
+</Card>
